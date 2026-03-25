@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammed1 - المسلسلات الإيرانية</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --deep: #0A0A0F;
+    --card: #111118;
+    --card2: #16161F;
+    --accent: #8B1A1A;
+    --accent2: #C0392B;
+    --text: #F0EAD6;
+    --muted: #8A8070;
+    --border: rgba(201,168,76,0.2);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--deep); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* ── Background texture ── */
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139,26,26,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 90% 90%, rgba(201,168,76,0.08) 0%, transparent 60%);
+    pointer-events:none;
+  }
+
+  /* ── Header ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 70px;
+  }
+
+  .logo {
+    font-family: 'Amiri', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo span { color: var(--accent2); }
+  .logo-icon { font-size: 2rem; }
+
+  nav { display: flex; gap: 1.5rem; align-items: center; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color .2s;
+    cursor: pointer;
+  }
+  nav a:hover, nav a.active { color: var(--gold); }
+
+  .search-btn {
+    background: var(--border);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.85rem;
+    font-family: 'Cairo', sans-serif;
+    transition: all .2s;
+  }
+  .search-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    height: 520px;
+    display: flex; align-items: flex-end;
+    padding: 3rem 3rem;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a0a0a 0%, #0d1525 50%, #0a0a0f 100%);
+    z-index: 0;
+  }
+  .hero-bg::after {
+    content:'';
+    position:absolute; inset:0;
+    background: linear-gradient(to top, var(--deep) 0%, transparent 60%);
+  }
+
+  .hero-pattern {
+    position:absolute; inset:0; z-index:1;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .hero-content { position:relative; z-index:3; max-width: 600px; }
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+  }
+  .hero h1 {
+    font-family: 'Amiri', serif;
+    font-size: 3.5rem;
+    line-height: 1.1;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 20px rgba(201,168,76,0.3);
+  }
+  .hero p {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 480px;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    transition: all .3s;
+    box-shadow: 0 4px 20px rgba(192,57,43,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(192,57,43,0.5); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .btn-secondary:hover { background: rgba(201,168,76,0.1); }
+
+  /* ── Main content ── */
+  main { position: relative; z-index: 1; padding: 0 2rem 4rem; }
+
+  /* ── Categories ── */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .section-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after {
+    content:'';
+    display:block;
+    width: 40px; height: 2px;
+    background: var(--accent2);
+    border-radius: 2px;
+  }
+  .see-all { color: var(--muted); font-size: 0.85rem; cursor: pointer; transition: color .2s; }
+  .see-all:hover { color: var(--gold); }
+
+  /* ── Category pills ── */
+  .categories {
+    display: flex; gap: 0.75rem; flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .cat-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .25s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cat-pill:hover, .cat-pill.active {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── Grid ── */
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .series-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all .3s;
+    position: relative;
+    group: true;
+  }
+  .series-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(201,168,76,0.5);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+
+  .card-thumb {
+    position: relative;
+    aspect-ratio: 2/3;
+    overflow: hidden;
+  }
+  .card-thumb-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .4s;
+  }
+  .series-card:hover .card-thumb-img { transform: scale(1.08); }
+
+  .card-overlay {
+    position:absolute; inset:0;
+    background: linear-gradient(to top, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0.3) 50%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 1rem;
+    opacity: 0; transition: opacity .3s;
+  }
+  .series-card:hover .card-overlay { opacity: 1; }
+
+  .card-play {
+    background: var(--accent2);
+    color: #fff;
+    border: none;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 8px;
+    transition: transform .2s;
+  }
+  .card-play:hover { transform: scale(1.1); }
+
+  .card-dl {
+    background: rgba(201,168,76,0.2);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  .card-badge {
+    position:absolute; top:10px; right:10px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .card-badge.hd { background: var(--gold); color: var(--deep); }
+
+  .card-info { padding: 0.9rem; }
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .card-meta {
+    display: flex; gap: 8px; align-items: center;
+    font-size: 0.75rem; color: var(--muted);
+  }
+  .card-rating { color: var(--gold); }
+
+  /* ── Years filter ── */
+  .years-filter {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .year-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: all .2s;
+  }
+  .year-btn:hover, .year-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ── Player Modal ── */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+  .modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 90%; max-width: 920px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.92);
+    transition: transform .3s;
+    position: relative;
+  }
+  .modal-backdrop.open .modal { transform: scale(1); }
+
+  .modal-close {
+    position: absolute; top: 16px; left: 16px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: var(--text);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: background .2s;
+  }
+  .modal-close:hover { background: var(--accent); }
+
+  .video-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    color: var(--muted);
+  }
+  .play-icon-big {
+    width: 80px; height: 80px;
+    background: var(--accent2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform .2s;
+    box-shadow: 0 0 40px rgba(192,57,43,0.5);
+  }
+  .play-icon-big:hover { transform: scale(1.1); }
+
+  .modal-details { padding: 1.5rem 2rem 2rem; }
+  .modal-title {
+    font-family: 'Amiri', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .modal-meta { display: flex; gap: 16px; color: var(--muted); font-size: 0.85rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .modal-desc { color: #bbb; line-height: 1.8; font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+  /* Episodes */
+  .episodes-section { margin-top: 1rem; }
+  .episodes-title { font-size: 1rem; font-weight: 700; color: var(--gold); margin-bottom: 1rem; }
+  .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px,1fr)); gap: 8px; }
+  .ep-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Cairo', sans-serif;
+    transition: all .2s;
+    display: flex; flex-direction: column; gap: 4px; align-items: center;
+  }
+  .ep-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .ep-btn.downloaded { border-color: #27ae60; color: #27ae60; }
+  .ep-dl-icon { font-size: 0.7rem; }
+
+  /* Download section */
+  .download-actions {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem;
+  }
+  .dl-btn {
+    background: linear-gradient(135deg, #1a6b1a, #27ae60);
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    display: flex; align-items: center; gap: 8px;
+    transition: all .2s;
+  }
+  .dl-btn:hover { transform: translateY(-2px); }
+
+  /* ── Downloaded section ── */
+  .downloaded-shelf {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .downloaded-shelf h3 { color: #27ae60; margin-bottom: 1rem; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+  .dl-list { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .dl-item {
+    background: var(--card2);
+    border: 1px solid rgba(39,174,96,0.3);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    display: flex; align-items: center; gap: 8px;
+    color: var(--text);
+  }
+  .dl-item span { color: #27ae60; }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: #27ae60;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    z-index: 9999;
+    transition: transform .4s;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    position: relative; z-index: 1;
+  }
+  footer strong { color: var(--gold); font-family: 'Amiri', serif; font-size: 1rem; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    header { padding: 0 1rem; }
+    nav { display: none; }
+    main { padding: 0 1rem 3rem; }
+    .hero { height: 380px; padding: 1.5rem; }
+    .hero h1 { font-size: 2.2rem; }
+    .series-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+    .modal { width: 98%; }
+    .modal-details { padding: 1rem; }
+    .modal-title { font-size: 1.5rem; }
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(30px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .series-card { animation: fadeUp .5s ease both; }
+  .series-card:nth-child(1) { animation-delay:.05s }
+  .series-card:nth-child(2) { animation-delay:.1s }
+  .series-card:nth-child(3) { animation-delay:.15s }
+  .series-card:nth-child(4) { animation-delay:.2s }
+  .series-card:nth-child(5) { animation-delay:.25s }
+  .series-card:nth-child(6) { animation-delay:.3s }
+
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <span class="logo-icon">🌙</span>
+    <span>Mohammed<span>1</span></span>
+  </div>
+  <nav>
+    <a class="active" onclick="showTab('home')">الرئيسية</a>
+    <a onclick="showTab('series')">المسلسلات</a>
+    <a onclick="showTab('movies')">الأفلام</a>
+    <a onclick="showTab('downloaded')">المحفوظات</a>
+    <a onclick="showTab('about')">حول</a>
+  </nav>
+  <button class="search-btn">🔍 بحث</button>
+</header>
+
+<!-- Hero -->
+<div class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🔥 الأكثر مشاهدة لهذا الأسبوع</div>
+    <h1>يوسف پیغمبر</h1>
+    <p>الملحمة الإيرانية الكبرى - مسلسل ديني تاريخي مترجم بالكامل إلى اللغة العربية. استمتع بمشاهدة قصة النبي يوسف عليه السلام بأعلى جودة.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal('يوسف پیغمبر','2008','ديني تاريخي','مسلسل إيراني ضخم يحكي قصة النبي يوسف عليه السلام، مترجم كاملاً للعربية. يُعدّ من أعظم الأعمال الإيرانية على الإطلاق.','45','⭐ 9.4')">▶ شاهد الآن</button>
+      <button class="btn-secondary" onclick="downloadEp('يوسف پیغمبر','1')">⬇ تحميل</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✅ تم التحميل بنجاح!</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modal" onclick="closeModalOut(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="video-container">
+      <div class="video-placeholder">
+        <div class="play-icon-big" id="mainPlay">▶</div>
+        <div id="nowPlaying" style="font-size:0.9rem; direction:rtl;">اضغط للتشغيل</div>
+      </div>
+    </div>
+    <div class="modal-details">
+      <div class="modal-title" id="mTitle">-</div>
+      <div class="modal-meta" id="mMeta"></div>
+      <div class="modal-desc" id="mDesc">-</div>
+      <div class="download-actions">
+        <button class="dl-btn" onclick="downloadAll()">⬇ تحميل جميع الحلقات</button>
+        <button class="dl-btn" style="background:linear-gradient(135deg,#8B1A1A,#c0392b)" onclick="downloadEpFromModal()">⬇ تحميل الحلقة الحالية</button>
+      </div>
+      <div class="episodes-section">
+        <div class="episodes-title">📺 قائمة الحلقات</div>
+        <div class="episodes-grid" id="episodesGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main -->
+<main>
+  <!-- Categories -->
+  <div class="section-header">
+    <div class="section-title">📂 التصنيفات</div>
+  </div>
+  <div class="categories" id="catFilter">
+    <div class="cat-pill active" onclick="filterCat('الكل',this)">🎬 الكل</div>
+    <div class="cat-pill" onclick="filterCat('دراما',this)">💔 دراما</div>
+    <div class="cat-pill" onclick="filterCat('كوميدي',this)">😂 كوميدي</div>
+    <div class="cat-pill" onclick="filterCat('حربي',this)">⚔️ حربي</div>
+    <div class="cat-pill" onclick="filterCat('ديني تاريخي',this)">🕌 ديني تاريخي</div>
+    <div class="cat-pill" onclick="filterCat('وثائقي',this)">📽️ وثائقي</div>
+    <div class="cat-pill" onclick="filterCat('جريمة',this)">🔍 جريمة</div>
+    <div class="cat-pill" onclick="filterCat('عائلي',this)">👨‍👩‍👧 عائلي</div>
+    <div class="cat-pill" onclick="filterCat('تعليمي',this)">📚 تعليمي</div>
+  </div>
+
+  <!-- Years -->
+  <div class="section-header">
+    <div class="section-title">📅 حسب السنة</div>
+  </div>
+  <div class="years-filter" id="yearsFilter">
+    <button class="year-btn active" onclick="filterYear('الكل',this)">الكل</button>
+    <button class="year-btn" onclick="filterYear('2024',this)">2024</button>
+    <button class="year-btn" onclick="filterYear('2023',this)">2023</button>
+    <button class="year-btn" onclick="filterYear('2022',this)">2022</button>
+    <button class="year-btn" onclick="filterYear('2020',this)">2020</button>
+    <button class="year-btn" onclick="filterYear('2018',this)">2018</button>
+    <button class="year-btn" onclick="filterYear('2015',this)">2015</button>
+    <button class="year-btn" onclick="filterYear('2010',this)">2010</button>
+    <button class="year-btn" onclick="filterYear('2008',this)">2008</button>
+  </div>
+
+  <!-- Series Grid -->
+  <div class="section-header">
+    <div class="section-title">🎭 المسلسلات الإيرانية المترجمة</div>
+    <span class="see-all">عرض الكل ›</span>
+  </div>
+  <div class="series-grid" id="seriesGrid"></div>
+
+  <!-- Downloaded -->
+  <div class="downloaded-shelf" id="downloadedShelf" style="display:none">
+    <h3>✅ الحلقات المحفوظة للمشاهدة دون إنترنت</h3>
+    <div class="dl-list" id="dlList"></div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>Mohammed1</strong> &nbsp;|&nbsp; منصة المسلسلات الإيرانية المترجمة عربياً
+  <br><small>جميع المحتويات من مصادر مفتوحة &nbsp;|&nbsp; للتعلم والترفيه</small>
+</footer>
+
+<script>
+const SERIES = [
+  {id:1, title:'يوسف پیغمبر', year:'2008', cat:'ديني تاريخي', ep:45, rating:'9.4', badge:'مترجم', hd:true,
+    color:'#2c1654', desc:'مسلسل ديني تاريخي يحكي قصة النبي يوسف عليه السلام. من أضخم الإنتاجات الإيرانية، مترجم بالكامل للعربية بصوت عربي فصيح.'},
+  {id:2, title:'شهرزاد', year:'2015', cat:'دراما', ep:30, rating:'8.7', badge:'مترجم', hd:true,
+    color:'#1a3a2a', desc:'دراما رومانسية تاريخية تجري أحداثها في إيران خمسينيات القرن الماضي. تتميز بإخراج راقٍ وأداء تمثيلي استثنائي.'},
+  {id:3, title:'پایتخت', year:'2012', cat:'كوميدي', ep:22, rating:'8.9', badge:'مترجم', hd:false,
+    color:'#3a1a10', desc:'مسلسل كوميدي عائلي يتابع مغامرات عائلة من الريف تنتقل للعيش في طهران. حائز على أعلى نسبة مشاهدة في إيران.'},
+  {id:4, title:'كلاه پهلوی', year:'2018', cat:'حربي', ep:20, rating:'8.2', badge:'مترجم', hd:true,
+    color:'#1a2a3a', desc:'دراما حربية تاريخية تتناول أحداث الحرب الإيرانية العراقية. إنتاج ضخم بمشاهد معارك واقعية مثيرة.'},
+  {id:5, title:'مختارنامه', year:'2010', cat:'ديني تاريخي', ep:40, rating:'9.1', badge:'مترجم', hd:false,
+    color:'#2a1a1a', desc:'ملحمة تاريخية إسلامية تروي سيرة المختار الثقفي ونصرته لآل البيت. من أبرز الأعمال الإيرانية الكلاسيكية.'},
+  {id:6, title:'همسران', year:'2023', cat:'عائلي', ep:12, rating:'7.8', badge:'جديد', hd:true,
+    color:'#2a2a1a', desc:'مسلسل عائلي اجتماعي يتناول حياة أربع عائلات متجاورة وتشابك علاقاتهم وأحداثهم اليومية.'},
+  {id:7, title:'آقازاده', year:'2020', cat:'جريمة', ep:16, rating:'8.5', badge:'مترجم', hd:true,
+    color:'#1a1a2a', desc:'دراما جريمة واجتماع تكشف عن الفساد في عالم الأعمال والسياسة في إيران الحديثة.'},
+  {id:8, title:'زیر آسمان شهر', year:'2022', cat:'دراما', ep:24, rating:'8.0', badge:'مترجم', hd:true,
+    color:'#1a2a1a', desc:'دراما اجتماعية رومانسية تتناول قصص شباب يعيشون في المدينة الكبيرة ويبحثون عن أحلامهم.'},
+  {id:9, title:'فارسی بیاموز', year:'2024', cat:'تعليمي', ep:50, rating:'9.0', badge:'تعليمي', hd:true,
+    color:'#1a3a3a', desc:'مسلسل تعليمي خاص بتعلم اللغة الفارسية من الصفر. مقسّم إلى دروس تدريجية مع شرح باللغة العربية.'},
+  {id:10, title:'پرستاران', year:'2022', cat:'وثائقي', ep:8, rating:'8.3', badge:'وثائقي', hd:true,
+    color:'#2a1a3a', desc:'وثائقي درامي يرصد حياة الكوادر الطبية الإيرانية خلال جائحة كورونا. يجمع بين الوثائقي والدراما الإنسانية.'},
+  {id:11, title:'جلال‌الدين', year:'2015', cat:'ديني تاريخي', ep:35, rating:'8.8', badge:'مترجم', hd:false,
+    color:'#2a2000', desc:'مسلسل تاريخي يصوّر حياة جلال الدين الرومي الشاعر الصوفي الكبير في مرحلة شبابه ونضجه الروحي.'},
+  {id:12, title:'نون خ', year:'2018', cat:'كوميدي', ep:18, rating:'8.6', badge:'مترجم', hd:true,
+    color:'#2a0a0a', desc:'كوميديا اجتماعية تدور في بيئة ريفية صغيرة وتسلط الضوء على العادات والتقاليد بأسلوب فكاهي خفيف الظل.'},
+];
+
+let activeYear = 'الكل';
+let activeCat = 'الكل';
+let currentModal = null;
+let currentEp = 1;
+const downloads = {};
+
+function getEmoji(cat) {
+  const map = {'دراما':'💔','كوميدي':'😂','حربي':'⚔️','ديني تاريخي':'🕌','وثائقي':'📽️','جريمة':'🔍','عائلي':'👨‍👩‍👧','تعليمي':'📚'};
+  return map[cat]||'🎬';
+}
+
+function getGradient(color) {
+  return `linear-gradient(160deg, ${color} 0%, #0a0a0f 100%)`;
+}
+
+function renderGrid() {
+  const grid = document.getElementById('seriesGrid');
+  let filtered = SERIES.filter(s => {
+    const yrOk = activeYear === 'الكل' || s.year === activeYear;
+    const catOk = activeCat === 'الكل' || s.cat === activeCat;
+    return yrOk && catOk;
+  });
+
+  if(filtered.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">لا توجد نتائج لهذا التصفية</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map((s,i) => `
+    <div class="series-card" style="animation-delay:${i*0.06}s" onclick="openModal('${s.title}','${s.year}','${s.cat}','${s.desc}','${s.ep}','⭐ ${s.rating}')">
+      <div class="card-thumb">
+        <div class="card-thumb-img" style="background:${getGradient(s.color)};display:flex;align-items:center;justify-content:center;font-size:4rem;">
+          ${getEmoji(s.cat)}
+        </div>
+        <div class="card-overlay">
+          <button class="card-play" onclick="event.stopPropagation();openModal('${s.title}','${s.year}','${s.cat}','${s.desc}','${s.ep}','⭐ ${s.rating}')">▶</button>
+          <button class="card-dl" onclick="event.stopPropagation();downloadEp('${s.title}','1')">⬇ تحميل</button>
+        </div>
+        <div class="card-badge ${s.hd?'hd':''}">${s.hd?'HD':''} ${s.badge}</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${s.title}</div>
+        <div class="card-meta">
+          <span class="card-rating">⭐ ${s.rating}</span>
+          <span>${s.year}</span>
+          <span>${s.ep} حلقة</span>
+        </div>
+        <div style="font-size:0.72rem;color:var(--gold);margin-top:4px;">${getEmoji(s.cat)} ${s.cat}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCat(cat, el) {
+  activeCat = cat;
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderGrid();
+}
+
+function filterYear(year, el) {
+  activeYear = year;
+  document.querySelectorAll('.year-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderGrid();
+}
+
+let currentSeries = null;
+
+function openModal(title, year, cat, desc, ep, rating) {
+  currentSeries = {title, year, cat, desc, ep: parseInt(ep), rating};
+  currentEp = 1;
+  document.getElementById('mTitle').textContent = title;
+  document.getElementById('mMeta').innerHTML = `
+    <span>${year}</span><span>|</span><span>${cat}</span><span>|</span>
+    <span>${ep} حلقة</span><span>|</span><span>${rating}</span>
+    <span style="color:#27ae60">|</span><span style="color:#27ae60">مترجم عربي</span>
+  `;
+  document.getElementById('mDesc').textContent = desc;
+  document.getElementById('nowPlaying').textContent = `الحلقة 1 - ${title}`;
+
+  // Build episodes
+  const grid = document.getElementById('episodesGrid');
+  const epCount = parseInt(ep);
+  let html = '';
+  for(let i=1;i<=Math.min(epCount,30);i++){
+    const key = title+'_'+i;
+    const dl = downloads[key];
+    html += `<button class="ep-btn ${dl?'downloaded':''}" onclick="playEp(${i})">
+      <span>ح ${i}</span>
+      <span class="ep-dl-icon">${dl?'✅':'⬇'}</span>
+    </button>`;
+  }
+  if(epCount>30) html += `<div style="color:var(--muted);font-size:0.75rem;padding:10px;grid-column:1/-1">... و ${epCount-30} حلقة أخرى</div>`;
+  grid.innerHTML = html;
+
+  document.getElementById('modal').classList.add('open');
+}
+
+function playEp(num) {
+  currentEp = num;
+  document.getElementById('nowPlaying').textContent = `▶ يتم تشغيل الحلقة ${num} - ${currentSeries.title}`;
+  document.querySelectorAll('.ep-btn').forEach((b,i)=>{
+    b.style.borderColor = (i+1===num) ? 'var(--accent2)' : '';
+    b.style.color = (i+1===num) ? 'var(--accent2)' : '';
+  });
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function closeModalOut(e) { if(e.target.id==='modal') closeModal(); }
+
+function downloadEp(title, epNum) {
+  const key = title+'_'+epNum;
+  downloads[key] = true;
+  showToast(`✅ تم تحميل الحلقة ${epNum} من ${title}`);
+  updateDownloadedShelf();
+  // Refresh episodes if modal open
+  if(currentSeries && currentSeries.title === title) openModal(title, currentSeries.year, currentSeries.cat, currentSeries.desc, currentSeries.ep, currentSeries.rating);
+}
+
+function downloadEpFromModal() {
+  if(!currentSeries) return;
+  downloadEp(currentSeries.title, currentEp);
+}
+
+function downloadAll() {
+  if(!currentSeries) return;
+  for(let i=1;i<=Math.min(currentSeries.ep,30);i++) {
+    downloads[currentSeries.title+'_'+i] = true;
+  }
+  showToast(`✅ تم تحميل جميع حلقات ${currentSeries.title} للمشاهدة دون إنترنت!`);
+  updateDownloadedShelf();
+  openModal(currentSeries.title, currentSeries.year, currentSeries.cat, currentSeries.desc, currentSeries.ep, currentSeries.rating);
+}
+
+function updateDownloadedShelf() {
+  const keys = Object.keys(downloads);
+  if(keys.length === 0) { document.getElementById('downloadedShelf').style.display='none'; return; }
+  document.getElementById('downloadedShelf').style.display='block';
+  const grouped = {};
+  keys.forEach(k => {
+    const [title, ep] = k.split('_');
+    if(!grouped[title]) grouped[title]=[];
+    grouped[title].push(parseInt(ep));
+  });
+  let html = '';
+  for(const [title, eps] of Object.entries(grouped)) {
+    const sorted = eps.sort((a,b)=>a-b);
+    html += `<div class="dl-item">🎬 ${title} &nbsp;<span>ح: ${sorted.join(', ')}</span></div>`;
+  }
+  document.getElementById('dlList').innerHTML = html;
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+function showTab(tab) {
+  // Simple tab switching — for now scroll to sections
+  if(tab==='downloaded') { document.getElementById('downloadedShelf').scrollIntoView({behavior:'smooth'}); }
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Init
+renderGrid();
+</script>
+</body>
+</html>
